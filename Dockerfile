@@ -64,7 +64,9 @@ RUN apt-get update && \
     libxext6 \
     libboost-all-dev \
     cifs-utils \
-    software-properties-common
+    software-properties-common \
+    python3 \
+    python-is-python3
 
 
 # ==================================================================
@@ -72,25 +74,6 @@ RUN apt-get update && \
 # ------------------------------------------------------------------
 
 #Based on https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
-
-# Adding repository for python3.12
-RUN add-apt-repository ppa:deadsnakes/ppa -y && \
-
-    # Installing python3.12
-    $APT_INSTALL \
-    python3.11 \
-    python3.11-dev \
-    python3.11-venv \
-    python3-distutils-extra
-
-# Add symlink so python and python3 commands use same python3.11 executable
-RUN ln -s /usr/bin/python3.11 /usr/local/bin/python3 && \
-    ln -s /usr/bin/python3.11 /usr/local/bin/python
-
-# Installing pip
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
-ENV PATH=$PATH:/root/.local/bin
-
 
 # ==================================================================
 # Installing CUDA packages (CUDA Toolkit 12.1.0 & CUDNN 8.4.1)
@@ -131,7 +114,7 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86
 
 # Based on https://pytorch.org/get-started/locally/
 
-RUN python3 -m pip --no-cache-dir install --upgrade \
+RUN python -m pip --no-cache-dir install --upgrade \
         torch \
         torchvision \
         torchaudio \ 
@@ -196,7 +179,7 @@ RUN $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash  && \
     $APT_INSTALL nodejs  && \
-    python3 -m pip --no-cache-dir install --upgrade \
+    python -m pip --no-cache-dir install --upgrade \
         jupyter_contrib_nbextensions \
         jupyterlab-git \
         jupyter \
