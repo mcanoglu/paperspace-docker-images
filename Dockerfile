@@ -78,22 +78,22 @@ RUN add-apt-repository ppa:deadsnakes/ppa -y && \
 
     # Installing python3.12
     $APT_INSTALL \
-    python3.12 \
-    python3.12-dev \
-    python3.12-venv \
+    python3.11 \
+    python3.11-dev \
+    python3.11-venv \
     python3-distutils-extra
 
-# Add symlink so python and python3 commands use same python3.9 executable
-RUN ln -s /usr/bin/python3.12 /usr/local/bin/python3 && \
-    ln -s /usr/bin/python3.12 /usr/local/bin/python
+# Add symlink so python and python3 commands use same python3.11 executable
+RUN ln -s /usr/bin/python3.11 /usr/local/bin/python3 && \
+    ln -s /usr/bin/python3.11 /usr/local/bin/python
 
 # Installing pip
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 ENV PATH=$PATH:/root/.local/bin
 
 
 # ==================================================================
-# Installing CUDA packages (CUDA Toolkit 11.6.2 & CUDNN 8.4.1)
+# Installing CUDA packages (CUDA Toolkit 12.1.0 & CUDNN 8.4.1)
 # ------------------------------------------------------------------
 
 # Based on https://developer.nvidia.com/cuda-toolkit-archive
@@ -132,9 +132,6 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86
 # Based on https://pytorch.org/get-started/locally/
 
 RUN $PIP_INSTALL torch torchvision torchaudio torchtext && \
-
-
-
 # ==================================================================
 # TensorFlow
 # ------------------------------------------------------------------
