@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Paperspace Dockerfile for Gradient base image
 # Base was copied from Paperspace image 
 
@@ -17,8 +15,7 @@ ENV LANG C.UTF-8
 ENV SHELL=/bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
 
-ENV APT_INSTALL="apt-get install -y --no-install-recommends"
-ENV PIP_INSTALL="python3 -m pip --no-cache-dir install --upgrade"
+
 ENV GIT_CLONE="git clone --depth 10"
 
 
@@ -27,7 +24,7 @@ ENV GIT_CLONE="git clone --depth 10"
 # ------------------------------------------------------------------
 
 RUN apt-get update && \
-    $APT_INSTALL \
+    apt-get install -y --no-install-recommends \
     apt-utils \
     gcc \
     make \
@@ -167,7 +164,7 @@ RUN $APT_INSTALL \
 # CMake
 # ------------------------------------------------------------------
 
-RUN $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
+RUN git clone --depth 10 https://github.com/Kitware/CMake ~/cmake && \
     cd ~/cmake && \
     ./bootstrap && \
     make -j"$(nproc)" install
@@ -178,7 +175,7 @@ RUN $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
 # ------------------------------------------------------------------
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash  && \
-    $APT_INSTALL nodejs  && \
+    apt-get install -y --no-install-recommends nodejs  && \
     python -m pip --no-cache-dir install --upgrade \
         jupyter_contrib_nbextensions \
         jupyterlab-git \
