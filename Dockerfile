@@ -1,6 +1,4 @@
 # Paperspace Dockerfile for Gradient base image
-# Base was copied from Paperspace image 
-
 
 # ==================================================================
 # Initial setup
@@ -12,11 +10,10 @@ RUN yes| unminimize
 
 # Set ENV variables
 ENV LANG C.UTF-8
-ENV SHELL=/bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
 
 
-ENV GIT_CLONE="git clone --depth 10"
+
 
 
 # ==================================================================
@@ -155,7 +152,7 @@ RUN python -m pip --no-cache-dir install --upgrade \
 # Installing JRE and JDK
 # ------------------------------------------------------------------
 
-RUN $APT_INSTALL \
+RUN apt-get install -y --no-install-recommends \
     default-jre \
     default-jdk
 
