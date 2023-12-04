@@ -131,75 +131,46 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86
 
 # Based on https://pytorch.org/get-started/locally/
 
-RUN $PIP_INSTALL torch torchvision torchaudio torchtext && \
-# ==================================================================
-# TensorFlow
-# ------------------------------------------------------------------
+RUN python3 -m pip --no-cache-dir install --upgrade \
+        torch \
+        torchvision \
+        torchaudio \ 
+        torchtext \
+        tensorflow \
+        datasets \
+        jupyterlab \
+        numpy \
+        scipy \
+        pandas \
+        cloudpickle \
+        scikit-image \
+        matplotlib \
+        ipython \
+        ipykernel \
+        ipywidgets \
+        cython \
+        tqdm \
+        gdown \
+        xgboost \
+        pillow \
+        seaborn \
+        sqlalchemy \
+        spacy \
+        nltk \
+        boto3 \
+        tabulate \
+        future \
+        gradient \
+        jsonify \
+        opencv-python \
+        sentence-transformers \
+        wandb \
+        awscli \
+        jupyterlab-snippets \
+        tornado \
+        transformers[torch] \
+        scikit-learn
 
-# Based on https://www.tensorflow.org/install/pip
-
-$PIP_INSTALL tensorflow && \
-
-
-# ==================================================================
-# Hugging Face
-# ------------------------------------------------------------------
-
-# Based on https://huggingface.co/docs/transformers/installation
-# Based on https://huggingface.co/docs/datasets/installation
-
-$PIP_INSTALL datasets && \
-
-
-# ==================================================================
-# JupyterLab
-# ------------------------------------------------------------------
-
-# Based on https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html#pip
-
-$PIP_INSTALL jupyterlab && \
-
-
-# ==================================================================
-# Additional Python Packages
-# ------------------------------------------------------------------
-
-$PIP_INSTALL \
-numpy \
-scipy \
-pandas \
-cloudpickle \
-scikit-image \
-matplotlib \
-ipython \
-ipykernel \
-ipywidgets \
-cython \
-tqdm \
-gdown \
-xgboost \
-pillow \
-seaborn \
-sqlalchemy \
-spacy \
-nltk \
-boto3 \
-tabulate \
-future \
-gradient \
-jsonify \
-opencv-python \
-sentence-transformers \
-wandb \
-awscli \
-jupyterlab-snippets \
-tornado
-# ==================================================================
-# Installing transformers & scikit image (fixed)
-# ------------------------------------------------------------------
-RUN pip install transformers[torch]
-
-RUN pip install --pre scikit-learn
 # ==================================================================
 # Installing JRE and JDK
 # ------------------------------------------------------------------
@@ -225,8 +196,13 @@ RUN $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash  && \
     $APT_INSTALL nodejs  && \
-    $PIP_INSTALL jupyter_contrib_nbextensions jupyterlab-git && \
-    jupyter contrib nbextension install --user
+    python3 -m pip --no-cache-dir install --upgrade \
+        jupyter_contrib_nbextensions \
+        jupyterlab-git \
+        jupyter \
+        jupyter contrib \
+        nbextension \
+        install --user
 
 
 # ==================================================================
