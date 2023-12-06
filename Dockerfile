@@ -12,10 +12,6 @@ RUN yes| unminimize
 ENV LANG C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
-
-
-
-
 # ==================================================================
 # Tools
 # ------------------------------------------------------------------
@@ -59,15 +55,24 @@ RUN apt-get update && \
     libboost-all-dev \
     cifs-utils \
     software-properties-common \
-    python3 \
-    python-is-python3
+    build-essential \
+    curl \
+    wget \
+    git \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    python3-pip \
+    python3-setuptools
 
+# Install Python
+ENV PYTHON_VERSION 3.11
 
-# ==================================================================
-# Python
-# ------------------------------------------------------------------
+RUN ["/bin/bash", "-c", "wget", "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz"]
+RUN tar -xvf Python-${PYTHON_VERSION}.tgz
+RUN cd Python-${PYTHON_VERSION} && ./configure --enable-optimizations
+RUN make altinstall
 
-#Based on https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa
 
 # ==================================================================
 # Installing CUDA packages (CUDA Toolkit 12.1.0 & CUDNN 8.4.1)
@@ -103,12 +108,10 @@ RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86
 
 
 # ==================================================================
-# PyTorch
+# Python packages
 # ------------------------------------------------------------------
 
-# Based on https://pytorch.org/get-started/locally/
-
-RUN python -m pip3 --no-cache-dir install --upgrade \
+RUN pip --no-cache-dir install --upgrade \
         torch \
         torchvision \
         torchaudio \ 
@@ -181,6 +184,13 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash  && \
         nbextension \
         install --user
 
+
+# ==================================================================
+# Cleanup
+# ------------------------------------------------------------------
+
+RUN rm -rf Python-${PYTHON_VERSION}*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ==================================================================
 # Startup
