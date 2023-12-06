@@ -68,7 +68,7 @@ RUN apt-get update && \
 # Install Python
 ENV PYTHON_VERSION 3.11
 
-RUN ["/bin/bash", "-c", "wget", "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz"]
+RUN wget "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz"
 RUN tar -xvf Python-${PYTHON_VERSION}.tgz
 RUN cd Python-${PYTHON_VERSION} && ./configure --enable-optimizations
 RUN make altinstall
